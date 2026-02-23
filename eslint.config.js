@@ -16,11 +16,9 @@ export default defineConfig([
    * Evita errores de parserOptions.project y reglas no-unsafe en configs.
    */
   {
-    files: ["vite.config.ts", "eslint.config.js"],
+    files: ["**/vite.config.*", "**/*.config.*", "**/eslint.config.js"],
     languageOptions: {
-      parserOptions: {
-        project: null,
-      },
+      parserOptions: { project: null },
     },
     rules: {
       "@typescript-eslint/no-unsafe-assignment": "off",
