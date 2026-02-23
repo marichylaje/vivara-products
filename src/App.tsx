@@ -1,20 +1,41 @@
-import { useState } from "react";
-
+import { useEffect } from "react";
 import "./App.css";
 
+import { http } from "@/shared/api/httpClient";
+import { env } from "@/shared/config/env";
+
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+};
+
+type ProductsResponse = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+};
+
 function App() {
-  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await http<ProductsResponse>(`${env.apiBaseUrl}/products?limit=5`);
+
+        console.log({ data });
+      } catch (error) {
+        console.error(`Error fetching API: ${error}`);
+      }
+    };
+
+    void fetchProducts();
+  }, []);
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <h1>Vivara Products Demo</h1>
+      <p>Check the console to see API response.</p>
     </>
   );
 }
