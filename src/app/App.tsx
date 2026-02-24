@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 
-import { http } from "@shared/api/httpClient";
-import { env } from "@shared/config/env";
-import "./App.css";
+import { http, env } from "@shared";
+import "./styles/App.css";
 
 type Product = {
   id: number;
@@ -16,6 +15,8 @@ type ProductsResponse = {
   skip: number;
   limit: number;
 };
+
+export const aaa = 3;
 
 function App() {
   useEffect(() => {

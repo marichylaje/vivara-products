@@ -10,10 +10,19 @@
 
     "baseUrl": ".",
     "paths": {
+      "@shared": ["src/shared/index.ts"],
       "@shared/*": ["src/shared/*"],
+
+      "@entities": ["src/entities/index.ts"],
       "@entities/*": ["src/entities/*"],
+
+      "@features": ["src/features/index.ts"],
       "@features/*": ["src/features/*"],
+
+      "@pages": ["src/pages/index.ts"],
       "@pages/*": ["src/pages/*"],
+
+      "@app": ["src/app/index.ts"],
       "@app/*": ["src/app/*"]
     },
 

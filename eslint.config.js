@@ -23,9 +23,6 @@ export default defineConfig([
     },
   },
 
-  /**
-   * App source code (type-aware linting)
-   */
   {
     files: ["src/**/*.{ts,tsx}"],
     extends: [
@@ -63,6 +60,39 @@ export default defineConfig([
     rules: {
       "react/react-in-jsx-scope": "off",
 
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["src/*"],
+              message: "Use layer aliases (@shared, @entities, etc.) instead of src/ paths.",
+            },
+
+            {
+              group: ["@shared/*/*", "@shared/*/*/*", "@shared/*/*/*/*"],
+              message: "Import only from @shared/* (barrel). Example: @shared/api",
+            },
+            {
+              group: ["@entities/*/*", "@entities/*/*/*", "@entities/*/*/*/*"],
+              message: "Import only from @entities/* (barrel). Example: @entities/product",
+            },
+            {
+              group: ["@features/*/*", "@features/*/*/*", "@features/*/*/*/*"],
+              message: "Import only from @features/* (barrel). Example: @features/product-search",
+            },
+            {
+              group: ["@pages/*/*", "@pages/*/*/*", "@pages/*/*/*/*"],
+              message: "Import only from @pages/* (barrel). Example: @pages/products",
+            },
+            {
+              group: ["@app/*/*", "@app/*/*/*", "@app/*/*/*/*"],
+              message: "Import only from @app/* (barrel). Example: @app/App",
+            },
+          ],
+        },
+      ],
+
       "import/order": [
         "error",
         {
@@ -72,10 +102,64 @@ export default defineConfig([
         },
       ],
 
+      "import/no-cycle": ["error", { maxDepth: 2 }],
+
       "prettier/prettier": "error",
 
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/consistent-type-imports": ["error", { fixStyle: "inline-type-imports" }],
+    },
+  },
+
+  /**
+   * Architecture rules (Clean Architecture / layers)
+   * Allowed direction: app → pages → features → entities → shared
+   */
+  {
+    files: ["src/shared/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["@entities/*", "@features/*", "@pages/*", "@app/*"],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ["src/entities/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["@features/*", "@pages/*", "@app/*"],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ["src/features/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["@pages/*", "@app/*"],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ["src/pages/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["@app/*"],
+        },
+      ],
     },
   },
 ]);
