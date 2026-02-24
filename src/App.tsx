@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import "./App.css";
 
-import { http } from "@/shared/api/httpClient";
-import { env } from "@/shared/config/env";
+import { http } from "@shared/api/httpClient";
+import { env } from "@shared/config/env";
+import "./App.css";
 
 type Product = {
   id: number;

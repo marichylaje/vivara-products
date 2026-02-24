@@ -11,10 +11,6 @@ import { defineConfig, globalIgnores } from "eslint/config";
 export default defineConfig([
   globalIgnores(["dist", "coverage", "playwright-report", "node_modules"]),
 
-  /**
-   * Tooling/config files (no type-aware linting)
-   * Evita errores de parserOptions.project y reglas no-unsafe en configs.
-   */
   {
     files: ["**/vite.config.*", "**/*.config.*", "**/eslint.config.js"],
     languageOptions: {
@@ -67,7 +63,6 @@ export default defineConfig([
     rules: {
       "react/react-in-jsx-scope": "off",
 
-      // Imports prolijos
       "import/order": [
         "error",
         {
@@ -77,10 +72,8 @@ export default defineConfig([
         },
       ],
 
-      // Prettier como regla (práctico para challenge)
       "prettier/prettier": "error",
 
-      // TS
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/consistent-type-imports": ["error", { fixStyle: "inline-type-imports" }],
     },
