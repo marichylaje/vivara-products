@@ -1,6 +1,6 @@
 import { type ChangeEvent, useMemo, useState } from "react";
 
-import { useProductsList } from "@entities/product";
+import { useProductCategories, useProductsList } from "@entities/product";
 import { Button, Input, useDebouncedValue } from "@shared";
 
 import * as S from "./ProductsPage.styles";
@@ -10,8 +10,11 @@ const PAGE_SIZE = 10;
 export function ProductsPage() {
   const [page, setPage] = useState(0);
   const [q, setQ] = useState("");
+  const [category, setCategory] = useState<string | null>(null);
 
   const debouncedQ = useDebouncedValue(q, 300);
+
+  const categoriesQuery = useProductCategories();
 
   const skip = page * PAGE_SIZE;
 
@@ -19,6 +22,7 @@ export function ProductsPage() {
     limit: PAGE_SIZE,
     skip,
     q: debouncedQ,
+    category,
   });
 
   const totalPages = useMemo(() => {
@@ -40,11 +44,30 @@ export function ProductsPage() {
             placeholder="Search products…"
             value={q}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setQ(e.currentTarget.value);
+              setQ(e.target.value);
+              setCategory(null);
               setPage(0);
             }}
             style={{ width: 260 }}
           />
+
+          <S.Select
+            value={category ?? ""}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+              const next = e.target.value || null;
+              setCategory(next);
+              setQ("");
+              setPage(0);
+            }}
+            aria-label="Category filter"
+          >
+            <option value="">All categories</option>
+            {(categoriesQuery.data ?? []).map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </S.Select>
         </S.Tools>
       </S.Header>
 

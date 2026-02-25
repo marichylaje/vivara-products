@@ -11,7 +11,7 @@ export const productsApi = {
       `${env.apiBaseUrl}/products/search?q=${encodeURIComponent(params.q)}&limit=${params.limit}&skip=${params.skip}`,
     ),
 
-  categories: () => http<string[]>(`${env.apiBaseUrl}/products/categories`),
+  categories: () => http<unknown>(`${env.apiBaseUrl}/products/categories`),
 
   byCategory: (params: { category: string; limit: number; skip: number }) =>
     http<ProductsPage>(
