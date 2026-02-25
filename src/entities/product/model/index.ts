@@ -5,3 +5,5 @@ export type { Product, ProductsPage } from "./types";
 export { useProductsList } from "./useProductsList";
 
 export { useProductCategories } from "./useCategories";
+
+export { useProductDetail } from "./useProductDetail";
