@@ -1,4 +1,5 @@
 import { type ChangeEvent, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { useProductCategories, useProductsList } from "@entities/product";
 import { Button, Input, useDebouncedValue } from "@shared";
@@ -90,7 +91,11 @@ export function ProductsPage() {
               <tbody>
                 {(data?.products ?? []).map((p) => (
                   <tr key={p.id}>
-                    <S.Td>{p.title}</S.Td>
+                    <S.Td>
+                      <Link to={`/products/${p.id}`} style={{ color: "#a5b4fc" }}>
+                        {p.title}
+                      </Link>
+                    </S.Td>
                     <S.Td>{p.category}</S.Td>
                     <S.Td>
                       <S.Right>${p.price}</S.Right>
