@@ -1,5 +1,7 @@
 import { useEffect } from "react";
+import { RouterProvider } from "react-router-dom";
 
+import { router } from "@app";
 import { http, env } from "@shared";
 import "./styles/App.css";
 
@@ -33,12 +35,7 @@ function App() {
     void fetchProducts();
   }, []);
 
-  return (
-    <>
-      <h1>Vivara Products Demo</h1>
-      <p>Check the console to see API response.</p>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
