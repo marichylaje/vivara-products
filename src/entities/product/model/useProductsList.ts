@@ -7,5 +7,6 @@ export function useProductsList(params: { limit: number; skip: number }) {
   return useQuery({
     queryKey: productKeys.list(params),
     queryFn: () => productsApi.list(params),
+    placeholderData: (prev) => prev,
   });
 }

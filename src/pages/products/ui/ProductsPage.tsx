@@ -1,62 +1,92 @@
+import { useMemo, useState } from "react";
+
 import { useProductsList } from "@entities/product";
+import { Button } from "@shared/ui";
+
+import * as S from "./ProductsPage.styles";
 
 const PAGE_SIZE = 10;
 
 export function ProductsPage() {
-  const { data, isLoading, isError } = useProductsList({ limit: PAGE_SIZE, skip: 0 });
+  const [page, setPage] = useState(0);
+  const skip = page * PAGE_SIZE;
+
+  const { data, isLoading, isError, isFetching } = useProductsList({ limit: PAGE_SIZE, skip });
+
+  const totalPages = useMemo(() => {
+    const total = data?.total ?? 0;
+    return Math.max(1, Math.ceil(total / PAGE_SIZE));
+  }, [data?.total]);
+
+  const canPrev = page > 0;
+  const canNext = page < totalPages - 1;
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 16 }}>
-      <h1 style={{ margin: 0 }}>Products</h1>
+    <S.Page>
+      <S.Header>
+        <S.Title>Products</S.Title>
+        {isFetching && !isLoading ? <S.Subtle>Updating…</S.Subtle> : null}
+      </S.Header>
 
       {isLoading ? (
         <p style={{ marginTop: 12 }}>Loading...</p>
       ) : isError ? (
         <p style={{ marginTop: 12, color: "crimson" }}>Error loading products</p>
       ) : (
-        <div style={{ marginTop: 12, overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 900 }}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: "center", padding: 10, borderBottom: "1px solid #ddd" }}>
-                  Title
-                </th>
-                <th style={{ textAlign: "center", padding: 10, borderBottom: "1px solid #ddd" }}>
-                  Category
-                </th>
-                <th style={{ textAlign: "right", padding: 10, borderBottom: "1px solid #ddd" }}>
-                  Price
-                </th>
-                <th style={{ textAlign: "right", padding: 10, borderBottom: "1px solid #ddd" }}>
-                  Stock
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {(data?.products ?? []).map((p) => (
-                <tr key={p.id}>
-                  <td style={{ padding: 10, borderBottom: "1px solid #eee" }}>{p.title}</td>
-                  <td style={{ padding: 10, borderBottom: "1px solid #eee" }}>{p.category}</td>
-                  <td style={{ padding: 10, borderBottom: "1px solid #eee", textAlign: "right" }}>
-                    ${p.price}
-                  </td>
-                  <td style={{ padding: 10, borderBottom: "1px solid #eee", textAlign: "right" }}>
-                    {p.stock ?? "-"}
-                  </td>
-                </tr>
-              ))}
-
-              {(data?.products?.length ?? 0) === 0 && (
+        <>
+          <S.TableWrap>
+            <S.Table>
+              <thead>
                 <tr>
-                  <td colSpan={4} style={{ padding: 12 }}>
-                    No products
-                  </td>
+                  <S.Th>Title</S.Th>
+                  <S.Th>Category</S.Th>
+                  <S.Th style={{ textAlign: "right" }}>Price</S.Th>
+                  <S.Th style={{ textAlign: "right" }}>Stock</S.Th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {(data?.products ?? []).map((p) => (
+                  <tr key={p.id}>
+                    <S.Td>{p.title}</S.Td>
+                    <S.Td>{p.category}</S.Td>
+                    <S.Td>
+                      <S.Right>${p.price}</S.Right>
+                    </S.Td>
+                    <S.Td>
+                      <S.Right>{p.stock ?? "-"}</S.Right>
+                    </S.Td>
+                  </tr>
+                ))}
+
+                {(data?.products?.length ?? 0) === 0 && (
+                  <tr>
+                    <S.Td colSpan={4} style={{ color: "#94a3b8" }}>
+                      No products
+                    </S.Td>
+                  </tr>
+                )}
+              </tbody>
+            </S.Table>
+          </S.TableWrap>
+
+          <S.Footer>
+            <Button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={!canPrev}>
+              Prev
+            </Button>
+
+            <S.Subtle>
+              Page {page + 1} / {totalPages}
+            </S.Subtle>
+
+            <Button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={!canNext}
+            >
+              Next
+            </Button>
+          </S.Footer>
+        </>
       )}
-    </div>
+    </S.Page>
   );
 }
