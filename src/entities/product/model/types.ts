@@ -18,3 +18,13 @@ export type ProductsPage = {
   skip: number;
   limit: number;
 };
+
+export type ProductCreateInput = {
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  thumbnail?: string;
+};
+
+export type ProductUpdateInput = Partial<ProductCreateInput> & { id: number };

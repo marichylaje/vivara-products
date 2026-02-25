@@ -1,6 +1,6 @@
 export { productKeys } from "./queryKeys";
 
-export type { Product, ProductsPage } from "./types";
+export type { Product, ProductsPage, ProductCreateInput, ProductUpdateInput } from "./types";
 
 export { useProductsList } from "./useProductsList";
 
