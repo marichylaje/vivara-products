@@ -1,7 +1,9 @@
-import { type ChangeEvent, useMemo } from "react";
+import { type ChangeEvent, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useProductCategories, useProductsList } from "@entities/product";
+import { type Product } from "@entities/product";
+import { ProductFormModal } from "@features/product-form";
 import { Button, Input, useDebouncedValue, useLocalStorageState } from "@shared";
 
 import * as S from "./ProductsPage.styles";
@@ -21,6 +23,8 @@ export function ProductsPage() {
     q: "",
     category: null,
   });
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   const page = listState.page;
   const q = listState.q;
@@ -54,7 +58,9 @@ export function ProductsPage() {
         {isFetching && !isLoading ? <S.Subtle>Updating…</S.Subtle> : null}
 
         <S.Tools>
+          <label htmlFor="product-search">Search</label>
           <Input
+            id="product-search"
             placeholder="Search products…"
             value={q}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +74,9 @@ export function ProductsPage() {
             style={{ width: 260 }}
           />
 
+          <label htmlFor="category-filter">Category</label>
           <S.Select
+            id="category-filter"
             value={category ?? ""}
             onChange={(e: ChangeEvent<HTMLSelectElement>) => {
               const next = e.target.value || null;
@@ -88,6 +96,15 @@ export function ProductsPage() {
               </option>
             ))}
           </S.Select>
+          <Button
+            $variant="primary"
+            onClick={() => {
+              setEditingProduct(null);
+              setIsFormOpen(true);
+            }}
+          >
+            + New
+          </Button>
         </S.Tools>
       </S.Header>
 
@@ -105,6 +122,7 @@ export function ProductsPage() {
                   <S.Th>Category</S.Th>
                   <S.Th style={{ textAlign: "right" }}>Price</S.Th>
                   <S.Th style={{ textAlign: "right" }}>Stock</S.Th>
+                  <S.Th>Actions</S.Th>
                 </tr>
               </thead>
               <tbody>
@@ -121,6 +139,16 @@ export function ProductsPage() {
                     </S.Td>
                     <S.Td>
                       <S.Right>{p.stock ?? "-"}</S.Right>
+                    </S.Td>
+                    <S.Td>
+                      <Button
+                        onClick={() => {
+                          setEditingProduct(p);
+                          setIsFormOpen(true);
+                        }}
+                      >
+                        Edit
+                      </Button>
                     </S.Td>
                   </tr>
                 ))}
@@ -155,6 +183,15 @@ export function ProductsPage() {
               Next
             </Button>
           </S.Footer>
+          <ProductFormModal
+            key={editingProduct?.id ?? "new"}
+            open={isFormOpen}
+            initial={editingProduct}
+            onClose={() => {
+              setIsFormOpen(false);
+              setEditingProduct(null);
+            }}
+          />
         </>
       )}
     </S.Page>
