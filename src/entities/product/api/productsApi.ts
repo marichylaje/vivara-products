@@ -1,5 +1,4 @@
-import { http } from "@shared/api/httpClient";
-import { env } from "@shared/config/env";
+import { env, http } from "@shared";
 
 import type { ProductsPage } from "../model/types";
 
@@ -10,5 +9,12 @@ export const productsApi = {
   search: (params: { q: string; limit: number; skip: number }) =>
     http<ProductsPage>(
       `${env.apiBaseUrl}/products/search?q=${encodeURIComponent(params.q)}&limit=${params.limit}&skip=${params.skip}`,
+    ),
+
+  categories: () => http<string[]>(`${env.apiBaseUrl}/products/categories`),
+
+  byCategory: (params: { category: string; limit: number; skip: number }) =>
+    http<ProductsPage>(
+      `${env.apiBaseUrl}/products/category/${encodeURIComponent(params.category)}?limit=${params.limit}&skip=${params.skip}`,
     ),
 };
