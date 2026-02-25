@@ -1,17 +1,30 @@
-import { type ChangeEvent, useMemo, useState } from "react";
+import { type ChangeEvent, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { useProductCategories, useProductsList } from "@entities/product";
-import { Button, Input, useDebouncedValue } from "@shared";
+import { Button, Input, useDebouncedValue, useLocalStorageState } from "@shared";
 
 import * as S from "./ProductsPage.styles";
 
 const PAGE_SIZE = 10;
+const STORAGE_KEY = "vivara:products:listState";
+
+type ListState = {
+  page: number;
+  q: string;
+  category: string | null;
+};
 
 export function ProductsPage() {
-  const [page, setPage] = useState(0);
-  const [q, setQ] = useState("");
-  const [category, setCategory] = useState<string | null>(null);
+  const [listState, setListState] = useLocalStorageState<ListState>(STORAGE_KEY, {
+    page: 0,
+    q: "",
+    category: null,
+  });
+
+  const page = listState.page;
+  const q = listState.q;
+  const category = listState.category;
 
   const debouncedQ = useDebouncedValue(q, 300);
 
@@ -45,9 +58,12 @@ export function ProductsPage() {
             placeholder="Search products…"
             value={q}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setQ(e.target.value);
-              setCategory(null);
-              setPage(0);
+              setListState((prev) => ({
+                ...prev,
+                q: e.target.value,
+                category: null,
+                page: 0,
+              }));
             }}
             style={{ width: 260 }}
           />
@@ -56,9 +72,12 @@ export function ProductsPage() {
             value={category ?? ""}
             onChange={(e: ChangeEvent<HTMLSelectElement>) => {
               const next = e.target.value || null;
-              setCategory(next);
-              setQ("");
-              setPage(0);
+              setListState((prev) => ({
+                ...prev,
+                category: next,
+                q: "",
+                page: 0,
+              }));
             }}
             aria-label="Category filter"
           >
@@ -118,16 +137,19 @@ export function ProductsPage() {
           </S.TableWrap>
 
           <S.Footer>
-            <Button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={!canPrev}>
+            <Button
+              onClick={() =>
+                setListState((prev) => ({ ...prev, page: Math.max(0, prev.page - 1) }))
+              }
+              disabled={!canPrev}
+            >
               Prev
             </Button>
 
-            <S.Subtle>
-              Page {page + 1} / {totalPages}
-            </S.Subtle>
-
             <Button
-              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              onClick={() =>
+                setListState((prev) => ({ ...prev, page: Math.min(totalPages - 1, prev.page + 1) }))
+              }
               disabled={!canNext}
             >
               Next
