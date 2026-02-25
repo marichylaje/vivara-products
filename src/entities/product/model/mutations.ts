@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, type MutationFunction } from "@tanstack/react-query";
 
 import { productsApi } from "../api";
 import { productKeys } from "./queryKeys";
@@ -21,10 +21,14 @@ export function useCreateProduct() {
 export function useUpdateProduct() {
   const qc = useQueryClient();
 
-  return useMutation({
-    mutationFn: (input: ProductUpdateInput) => productsApi.update(input),
-    onSuccess: (_updatedFromApi, input) => {
-      addUpdatedProduct(input);
+  const mutationFn: MutationFunction<void, ProductUpdateInput> = (input) => {
+    addUpdatedProduct(input);
+    return Promise.resolve();
+  };
+
+  return useMutation<void, Error, ProductUpdateInput>({
+    mutationFn,
+    onSuccess: (_data, input) => {
       void qc.invalidateQueries({ queryKey: productKeys.all });
       void qc.invalidateQueries({ queryKey: productKeys.detail(input.id) });
     },
