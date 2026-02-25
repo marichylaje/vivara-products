@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { productKeys } from "./queryKeys";
-import { productsApi } from "../api/productsApi";
+import { productsApi } from "../api";
+import { applyWritesToList, getCreatedCount } from "../lib";
 
 type Params = { limit: number; skip: number; q?: string; category?: string | null };
 
@@ -25,5 +26,10 @@ export function useProductsList(params: Params) {
       return productsApi.list({ limit: params.limit, skip: params.skip });
     },
     placeholderData: (prev) => prev,
+    select: (page) => ({
+      ...page,
+      products: applyWritesToList(page.products),
+      total: page.total + getCreatedCount(),
+    }),
   });
 }
