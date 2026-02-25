@@ -28,21 +28,25 @@ export function getLocalWrites(): LocalWrites {
 export function nextLocalId(): number {
   const { created } = read();
   const min = created.reduce((acc, p) => Math.min(acc, p.id), 0);
-  return min - 1; // -1, -2, -3...
+  return min - 1;
 }
 
-export function addCreatedProduct(createdFromApi: Product, input: ProductCreateInput): Product {
+export function createLocalProduct(input: ProductCreateInput): Product {
   const state = read();
   const id = nextLocalId();
 
   const created: Product = {
-    ...createdFromApi,
     id,
     title: input.title,
     description: input.description,
     category: input.category,
     price: input.price,
     thumbnail: input.thumbnail,
+    stock: 0,
+    brand: undefined,
+    rating: undefined,
+    discountPercentage: undefined,
+    images: input.thumbnail ? [input.thumbnail] : [],
   };
 
   write({ ...state, created: [created, ...state.created] });

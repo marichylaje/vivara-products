@@ -1,7 +1,7 @@
 export {
   getLocalWrites,
   nextLocalId,
-  addCreatedProduct,
+  createLocalProduct,
   addUpdatedProduct,
   applyWritesToList,
   findCreatedById,

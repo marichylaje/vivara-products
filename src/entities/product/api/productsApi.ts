@@ -1,6 +1,6 @@
 import { env, http } from "@shared";
 
-import type { ProductsPage, Product, ProductCreateInput } from "../model";
+import type { ProductsPage, Product } from "../model";
 
 export const productsApi = {
   list: (params: { limit: number; skip: number }) =>
@@ -19,7 +19,4 @@ export const productsApi = {
     ),
 
   detail: (id: number) => http<Product>(`${env.apiBaseUrl}/products/${id}`),
-
-  create: (input: ProductCreateInput) =>
-    http<Product>(`${env.apiBaseUrl}/products/add`, { method: "POST", body: input }),
 };
