@@ -7,3 +7,5 @@ export { useProductsList } from "./useProductsList";
 export { useProductCategories } from "./useCategories";
 
 export { useProductDetail } from "./useProductDetail";
+
+export { useCreateProduct, useUpdateProduct } from "./mutations";
