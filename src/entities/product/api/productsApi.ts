@@ -1,6 +1,6 @@
 import { env, http } from "@shared";
 
-import type { ProductsPage } from "../model/types";
+import type { ProductsPage, Product } from "../model/types";
 
 export const productsApi = {
   list: (params: { limit: number; skip: number }) =>
@@ -17,4 +17,6 @@ export const productsApi = {
     http<ProductsPage>(
       `${env.apiBaseUrl}/products/category/${encodeURIComponent(params.category)}?limit=${params.limit}&skip=${params.skip}`,
     ),
+
+  detail: (id: number) => http<Product>(`${env.apiBaseUrl}/products/${id}`),
 };
