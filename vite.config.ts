@@ -6,7 +6,22 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          [
+            "babel-plugin-styled-components",
+            {
+              displayName: true,
+              fileName: false,
+              pure: true,
+            },
+          ],
+        ],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       "@shared": path.resolve(__dirname, "./src/shared"),
