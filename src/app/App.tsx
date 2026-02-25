@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 
 import { router } from "@app";
-import { http, env } from "@shared";
-import "./styles/App.css";
+import { env, http } from "@shared";
 
 type Product = {
   id: number;
