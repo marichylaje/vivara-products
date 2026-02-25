@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { type ChangeEvent, useMemo, useState } from "react";
 
 import { useProductsList } from "@entities/product";
-import { Button } from "@shared/ui";
+import { Button, Input, useDebouncedValue } from "@shared";
 
 import * as S from "./ProductsPage.styles";
 
@@ -9,9 +9,17 @@ const PAGE_SIZE = 10;
 
 export function ProductsPage() {
   const [page, setPage] = useState(0);
+  const [q, setQ] = useState("");
+
+  const debouncedQ = useDebouncedValue(q, 300);
+
   const skip = page * PAGE_SIZE;
 
-  const { data, isLoading, isError, isFetching } = useProductsList({ limit: PAGE_SIZE, skip });
+  const { data, isLoading, isError, isFetching } = useProductsList({
+    limit: PAGE_SIZE,
+    skip,
+    q: debouncedQ,
+  });
 
   const totalPages = useMemo(() => {
     const total = data?.total ?? 0;
@@ -26,6 +34,18 @@ export function ProductsPage() {
       <S.Header>
         <S.Title>Products</S.Title>
         {isFetching && !isLoading ? <S.Subtle>Updating…</S.Subtle> : null}
+
+        <S.Tools>
+          <Input
+            placeholder="Search products…"
+            value={q}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setQ(e.currentTarget.value);
+              setPage(0);
+            }}
+            style={{ width: 260 }}
+          />
+        </S.Tools>
       </S.Header>
 
       {isLoading ? (
@@ -61,7 +81,7 @@ export function ProductsPage() {
                 {(data?.products?.length ?? 0) === 0 && (
                   <tr>
                     <S.Td colSpan={4} style={{ color: "#94a3b8" }}>
-                      No products
+                      No results
                     </S.Td>
                   </tr>
                 )}

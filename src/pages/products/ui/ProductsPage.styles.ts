@@ -58,3 +58,10 @@ export const Footer = styled.footer`
   align-items: center;
   gap: ${({ theme }) => theme.space(2.5)};
 `;
+
+export const Tools = styled.div`
+  margin-left: auto;
+  display: flex;
+  gap: ${({ theme }) => theme.space(2)};
+  align-items: center;
+`;
