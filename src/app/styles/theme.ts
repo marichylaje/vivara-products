@@ -7,6 +7,8 @@ export const theme = {
     muted: "#94a3b8",
     primary: "#4f46e5",
     danger: "#b91c1c",
+    dangerHover: "#dc2626",
+    dangerSoft: "#fee2e2",
   },
   radius: {
     sm: "10px",

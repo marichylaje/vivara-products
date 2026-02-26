@@ -124,7 +124,7 @@ export function ProductsPage() {
                   <S.Th>Category</S.Th>
                   <S.Th style={{ textAlign: "right" }}>Price</S.Th>
                   <S.Th style={{ textAlign: "right" }}>Stock</S.Th>
-                  <S.Th>Actions</S.Th>
+                  <S.Th style={{ textAlign: "center" }}>Actions</S.Th>
                 </tr>
               </thead>
               <tbody>
@@ -142,7 +142,7 @@ export function ProductsPage() {
                     <S.Td>
                       <S.Right>{p.stock ?? "-"}</S.Right>
                     </S.Td>
-                    <S.Td>
+                    <S.Td style={{ textAlign: "center" }}>
                       <Button
                         onClick={() => {
                           setEditingProduct(p);
@@ -151,7 +151,9 @@ export function ProductsPage() {
                       >
                         Edit
                       </Button>
-                      <Button onClick={() => setProductToDelete(p)}>Delete</Button>
+                      <Button onClick={() => setProductToDelete(p)} $variant={"danger"}>
+                        Delete
+                      </Button>
                     </S.Td>
                   </tr>
                 ))}
@@ -176,6 +178,10 @@ export function ProductsPage() {
             >
               Prev
             </Button>
+
+            <S.Subtle aria-live="polite">
+              Page {page + 1} / {totalPages}
+            </S.Subtle>
 
             <Button
               onClick={() =>

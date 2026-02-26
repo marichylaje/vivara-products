@@ -1,9 +1,10 @@
 import styled, { css } from "styled-components";
 
-type Variant = "primary" | "ghost";
+type Variant = "primary" | "danger";
 
 export const Button = styled.button<{ $variant?: Variant }>`
   padding: ${({ theme }) => `${theme.space(2)} ${theme.space(3)}`};
+  margin-left: ${({ theme }) => `${theme.space(2)}`};
   border-radius: ${({ theme }) => theme.radius.sm};
   border: 1px solid ${({ theme }) => theme.colors.border};
   background: transparent;
@@ -37,6 +38,19 @@ export const Button = styled.button<{ $variant?: Variant }>`
       &:hover {
         opacity: 0.95;
         border-color: ${theme.colors.primary};
+      }
+    `}
+
+  ${({ $variant, theme }) =>
+    $variant === "danger" &&
+    css`
+      background: ${theme.colors.danger};
+      border-color: ${theme.colors.danger};
+      color: white;
+
+      &:hover {
+        background: ${theme.colors.dangerHover};
+        border-color: ${theme.colors.dangerHover};
       }
     `}
 `;

@@ -42,7 +42,7 @@ export function ConfirmDialog({
         </Button>
         <Button
           type="button"
-          $variant={danger ? "primary" : "primary"}
+          $variant={danger ? "danger" : "primary"}
           onClick={onConfirm}
           disabled={isConfirming}
         >
