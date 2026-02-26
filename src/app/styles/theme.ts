@@ -4,7 +4,7 @@ export const theme = {
     surface: "#0f1318",
     border: "#2a2f3a",
     text: "#eaeef7",
-    muted: "#94a3b8",
+    secondaryText: "#94a3b8",
     primary: "#4f46e5",
     danger: "#b91c1c",
     dangerHover: "#dc2626",

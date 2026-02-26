@@ -23,7 +23,7 @@ export const Title = styled.h1`
 `;
 
 export const Subtle = styled.span`
-  color: ${({ theme }) => theme.colors.muted};
+  color: ${({ theme }) => theme.colors.secondaryText};
 `;
 
 export const TableWrap = styled.div`
@@ -48,7 +48,7 @@ export const Th = styled.th`
   text-align: left;
   padding: ${({ theme }) => theme.space(2.5)};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.muted};
+  color: ${({ theme }) => theme.colors.secondaryText};
   font-weight: 600;
 
   @media (max-width: 640px) {
@@ -68,7 +68,7 @@ export const Td = styled.td`
 
     &::before {
       content: attr(data-label);
-      color: ${({ theme }) => theme.colors.muted};
+      color: ${({ theme }) => theme.colors.secondaryText};
       font-weight: 600;
     }
   }

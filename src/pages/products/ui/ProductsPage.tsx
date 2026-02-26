@@ -156,6 +156,7 @@ export function ProductsPage() {
                           setEditingProduct(p);
                           setIsFormOpen(true);
                         }}
+                        style={{ marginRight: "auto" }}
                       >
                         Edit
                       </Button>

@@ -16,7 +16,7 @@ export const Button = styled.button<{ $variant?: Variant }>`
     border-color 120ms ease;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.muted};
+    border-color: ${({ theme }) => theme.colors.secondaryText};
   }
 
   &:active {

@@ -13,7 +13,7 @@ export const Row = styled.div`
 export const Field = styled.label`
   display: grid;
   gap: ${({ theme }) => theme.space(1.5)};
-  color: ${({ theme }) => theme.colors.muted};
+  color: ${({ theme }) => theme.colors.secondaryText};
 `;
 
 export const Textarea = styled.textarea`
