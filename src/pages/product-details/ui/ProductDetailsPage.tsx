@@ -12,7 +12,7 @@ export function ProductDetailsPage() {
   return (
     <S.Page>
       <Link to="/" style={{ color: "inherit" }}>
-        ← Back
+        Back
       </Link>
 
       {detail.isLoading ? (
@@ -22,7 +22,11 @@ export function ProductDetailsPage() {
       ) : !detail.data ? null : (
         <S.Card>
           <S.Title>{detail.data.title}</S.Title>
-          <S.Muted>{detail.data.description}</S.Muted>
+          <S.SecondaryText>{detail.data.description}</S.SecondaryText>
+
+          {detail.data.thumbnail ? (
+            <S.Thumbnail src={detail.data.thumbnail} alt={detail.data.title} loading="lazy" />
+          ) : null}
 
           <S.Grid>
             <div>

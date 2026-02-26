@@ -22,9 +22,9 @@ export const Title = styled.h2`
   margin: 0 0 ${({ theme }) => theme.space(2)} 0;
 `;
 
-export const Muted = styled.p`
+export const SecondaryText = styled.p`
   margin: 0 0 ${({ theme }) => theme.space(3)} 0;
-  color: ${({ theme }) => theme.colors.muted};
+  color: ${({ theme }) => theme.colors.secondaryText};
 `;
 
 export const Grid = styled.div`
@@ -35,4 +35,13 @@ export const Grid = styled.div`
   @media (max-width: 720px) {
     grid-template-columns: 1fr;
   }
+`;
+
+export const Thumbnail = styled.img`
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: ${({ theme }) => theme.radius.lg};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  margin-bottom: ${({ theme }) => theme.space(3)};
 `;
