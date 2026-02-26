@@ -7,4 +7,8 @@ export {
   findCreatedById,
   applyWritesToProduct,
   getCreatedCount,
+  isDeleted,
+  addDeletedProduct,
+  applyDeletesToList,
+  getDeletedCount,
 } from "./localWrites";

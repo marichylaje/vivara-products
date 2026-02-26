@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { productKeys } from "./queryKeys";
 import { productsApi } from "../api";
-import { applyWritesToProduct, findCreatedById } from "../lib";
+import { applyWritesToProduct, findCreatedById, isDeleted } from "../lib";
 
 export function useProductDetail(id: number | null) {
   return useQuery({
@@ -16,6 +16,8 @@ export function useProductDetail(id: number | null) {
         if (!created) throw new Error("Local product not found");
         return applyWritesToProduct(created);
       }
+
+      if (isDeleted(id)) throw new Error("Product was deleted");
 
       const fromApi = await productsApi.detail(id);
       return applyWritesToProduct(fromApi);
