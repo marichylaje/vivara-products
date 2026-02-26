@@ -2,9 +2,9 @@ import { type ChangeEvent, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useProductCategories, useProductsList } from "@entities/product";
-import { type Product } from "@entities/product";
+import { useDeleteProduct, type Product } from "@entities/product";
 import { ProductFormModal } from "@features/product-form";
-import { Button, Input, useDebouncedValue, useLocalStorageState } from "@shared";
+import { Button, Input, useDebouncedValue, useLocalStorageState, ConfirmDialog } from "@shared";
 
 import * as S from "./ProductsPage.styles";
 
@@ -23,6 +23,8 @@ export function ProductsPage() {
     q: "",
     category: null,
   });
+  const deleteMutation = useDeleteProduct();
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
@@ -149,6 +151,7 @@ export function ProductsPage() {
                       >
                         Edit
                       </Button>
+                      <Button onClick={() => setProductToDelete(p)}>Delete</Button>
                     </S.Td>
                   </tr>
                 ))}
@@ -190,6 +193,21 @@ export function ProductsPage() {
             onClose={() => {
               setIsFormOpen(false);
               setEditingProduct(null);
+            }}
+          />
+          <ConfirmDialog
+            open={!!productToDelete}
+            title="Delete product"
+            description={`Are you sure you want to delete "${productToDelete?.title ?? ""}"? This action cannot be undone.`}
+            confirmText="Delete"
+            danger
+            isConfirming={deleteMutation.isPending}
+            onClose={() => setProductToDelete(null)}
+            onConfirm={() => {
+              if (!productToDelete) return;
+              void deleteMutation.mutateAsync(productToDelete.id).then(() => {
+                setProductToDelete(null);
+              });
             }}
           />
         </>
