@@ -8,4 +8,4 @@ export { useProductCategories } from "./useCategories";
 
 export { useProductDetail } from "./useProductDetail";
 
-export { useCreateProduct, useUpdateProduct } from "./mutations";
+export { useCreateProduct, useUpdateProduct, useDeleteProduct } from "./mutations";
