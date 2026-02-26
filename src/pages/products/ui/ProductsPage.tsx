@@ -1,5 +1,5 @@
-import { type ChangeEvent, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { type ChangeEvent, type KeyboardEvent, type MouseEvent, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useProductCategories, useProductsList } from "@entities/product";
 import { useDeleteProduct, type Product } from "@entities/product";
@@ -8,7 +8,7 @@ import { Button, Input, useDebouncedValue, useLocalStorageState, ConfirmDialog }
 
 import * as S from "./ProductsPage.styles";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 const STORAGE_KEY = "vivara:products:listState";
 
 type ListState = {
@@ -23,6 +23,7 @@ export function ProductsPage() {
     q: "",
     category: null,
   });
+  const navigate = useNavigate();
   const deleteMutation = useDeleteProduct();
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -129,33 +130,47 @@ export function ProductsPage() {
               </thead>
               <tbody>
                 {(data?.products ?? []).map((p) => (
-                  <tr key={p.id}>
-                    <S.Td>
-                      <Link to={`/products/${p.id}`} style={{ color: "#a5b4fc" }}>
-                        {p.title}
-                      </Link>
-                    </S.Td>
-                    <S.Td>{p.category}</S.Td>
-                    <S.Td>
+                  <S.Tr
+                    key={p.id}
+                    aria-label={`Open product ${p.title}`}
+                    onClick={() => navigate(`/products/${p.id}`)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e: KeyboardEvent<HTMLTableRowElement>) => {
+                      if (e.key === "Enter") void navigate(`/products/${p.id}`);
+                    }}
+                  >
+                    <S.Td data-label="Title">{p.title}</S.Td>
+                    <S.Td data-label="Category">{p.category}</S.Td>
+                    <S.Td data-label="Price">
                       <S.Right>${p.price}</S.Right>
                     </S.Td>
-                    <S.Td>
+                    <S.Td data-label="Stock">
                       <S.Right>{p.stock ?? "-"}</S.Right>
                     </S.Td>
                     <S.Td style={{ textAlign: "center" }}>
                       <Button
-                        onClick={() => {
+                        data-label="Edit Row"
+                        onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                          e.stopPropagation();
                           setEditingProduct(p);
                           setIsFormOpen(true);
                         }}
                       >
                         Edit
                       </Button>
-                      <Button onClick={() => setProductToDelete(p)} $variant={"danger"}>
+                      <Button
+                        data-label="Delete Row"
+                        $variant="danger"
+                        onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                          e.stopPropagation();
+                          setProductToDelete(p);
+                        }}
+                      >
                         Delete
                       </Button>
                     </S.Td>
-                  </tr>
+                  </S.Tr>
                 ))}
 
                 {(data?.products?.length ?? 0) === 0 && (

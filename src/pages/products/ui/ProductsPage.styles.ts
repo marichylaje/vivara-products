@@ -10,6 +10,11 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.space(3)};
+  flex-wrap: wrap; /* ✅ allow wrap */
+
+  @media (max-width: 640px) {
+    align-items: stretch;
+  }
 `;
 
 export const Title = styled.h1`
@@ -33,6 +38,10 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   min-width: 900px;
+
+  @media (max-width: 640px) {
+    min-width: 0; /* ✅ no forced horizontal width */
+  }
 `;
 
 export const Th = styled.th`
@@ -41,11 +50,45 @@ export const Th = styled.th`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   color: ${({ theme }) => theme.colors.muted};
   font-weight: 600;
+
+  @media (max-width: 640px) {
+    display: none; /* ✅ hide header on mobile */
+  }
 `;
 
 export const Td = styled.td`
   padding: ${({ theme }) => theme.space(2.5)};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 640px) {
+    display: flex;
+    justify-content: space-between;
+    gap: ${({ theme }) => theme.space(2)};
+    padding: ${({ theme }) => theme.space(2)};
+
+    &::before {
+      content: attr(data-label);
+      color: ${({ theme }) => theme.colors.muted};
+      font-weight: 600;
+    }
+  }
+`;
+
+export const Tr = styled.tr`
+  cursor: pointer;
+  transition: background 120ms ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.surfaceHover};
+  }
+  @media (max-width: 640px) {
+    display: block;
+    border: 1px solid ${({ theme }) => theme.colors.border};
+    border-radius: ${({ theme }) => theme.radius.md};
+    overflow: hidden;
+    margin-bottom: ${({ theme }) => theme.space(2)};
+    background: ${({ theme }) => theme.colors.surface};
+  }
 `;
 
 export const Right = styled.div`
@@ -64,6 +107,12 @@ export const Tools = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.space(2)};
   align-items: center;
+
+  @media (max-width: 640px) {
+    margin-left: 0;
+    width: 100%;
+    flex-wrap: wrap;
+  }
 `;
 
 export const Select = styled.select`
@@ -76,5 +125,14 @@ export const Select = styled.select`
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+export const SearchWrap = styled.div`
+  width: 260px;
+
+  @media (max-width: 640px) {
+    width: 100%;
+    flex: 1;
   }
 `;

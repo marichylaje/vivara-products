@@ -9,6 +9,7 @@ export const theme = {
     danger: "#b91c1c",
     dangerHover: "#dc2626",
     dangerSoft: "#fee2e2",
+    surfaceHover: "rgba(255,255,255,0.03)",
   },
   radius: {
     sm: "10px",
