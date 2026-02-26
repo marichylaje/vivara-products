@@ -10,9 +10,17 @@ const KEY = "vivara:products:writes:v1";
 
 function read(): LocalWrites {
   const raw = localStorage.getItem(KEY);
+
   if (!raw) return { created: [], updated: {}, deleted: [] };
+
   try {
-    return JSON.parse(raw) as LocalWrites;
+    const parsed = JSON.parse(raw) as Partial<LocalWrites>;
+
+    return {
+      created: parsed.created ?? [],
+      updated: parsed.updated ?? {},
+      deleted: parsed.deleted ?? [],
+    };
   } catch {
     return { created: [], updated: {}, deleted: [] };
   }
