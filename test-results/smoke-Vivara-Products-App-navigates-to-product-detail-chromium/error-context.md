@@ -1,0 +1,102 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+    - banner [ref=e4]:
+        - heading "Products" [level=1] [ref=e5]
+        - generic [ref=e6]:
+            - generic [ref=e7]: Search
+            - textbox "Search" [ref=e8]:
+                - /placeholder: Search products…
+            - generic [ref=e9]: Category
+            - combobox "Category filter" [ref=e10]:
+                - option "All categories" [selected]
+                - option "Beauty"
+                - option "Fragrances"
+                - option "Furniture"
+                - option "Groceries"
+                - option "Home Decoration"
+                - option "Kitchen Accessories"
+                - option "Laptops"
+                - option "Mens Shirts"
+                - option "Mens Shoes"
+                - option "Mens Watches"
+                - option "Mobile Accessories"
+                - option "Motorcycle"
+                - option "Skin Care"
+                - option "Smartphones"
+                - option "Sports Accessories"
+                - option "Sunglasses"
+                - option "Tablets"
+                - option "Tops"
+                - option "Vehicle"
+                - option "Womens Bags"
+                - option "Womens Dresses"
+                - option "Womens Jewellery"
+                - option "Womens Shoes"
+                - option "Womens Watches"
+            - button "+ New" [ref=e11] [cursor=pointer]
+    - table [ref=e13]:
+        - rowgroup [ref=e14]:
+            - row "Title Category Price Stock Actions" [ref=e15]:
+                - columnheader "Title" [ref=e16]
+                - columnheader "Category" [ref=e17]
+                - columnheader "Price" [ref=e18]
+                - columnheader "Stock" [ref=e19]
+                - columnheader "Actions" [ref=e20]
+        - rowgroup [ref=e21]:
+            - button "Open product Essence Mascara Lash Princess" [ref=e22] [cursor=pointer]:
+                - cell "Essence Mascara Lash Princess" [ref=e23]
+                - cell "beauty" [ref=e24]
+                - cell "$9.99" [ref=e25]:
+                    - generic [ref=e26]: $9.99
+                - cell "99" [ref=e27]:
+                    - generic [ref=e28]: "99"
+                - cell "Edit Delete" [ref=e29]:
+                    - button "Edit" [ref=e30]
+                    - button "Delete" [ref=e31]
+            - button "Open product Eyeshadow Palette with Mirror" [ref=e32] [cursor=pointer]:
+                - cell "Eyeshadow Palette with Mirror" [ref=e33]
+                - cell "beauty" [ref=e34]
+                - cell "$19.99" [ref=e35]:
+                    - generic [ref=e36]: $19.99
+                - cell "34" [ref=e37]:
+                    - generic [ref=e38]: "34"
+                - cell "Edit Delete" [ref=e39]:
+                    - button "Edit" [ref=e40]
+                    - button "Delete" [ref=e41]
+            - button "Open product Powder Canister" [ref=e42] [cursor=pointer]:
+                - cell "Powder Canister" [ref=e43]
+                - cell "beauty" [ref=e44]
+                - cell "$14.99" [ref=e45]:
+                    - generic [ref=e46]: $14.99
+                - cell "89" [ref=e47]:
+                    - generic [ref=e48]: "89"
+                - cell "Edit Delete" [ref=e49]:
+                    - button "Edit" [ref=e50]
+                    - button "Delete" [ref=e51]
+            - button "Open product Red Lipstick" [ref=e52] [cursor=pointer]:
+                - cell "Red Lipstick" [ref=e53]
+                - cell "beauty" [ref=e54]
+                - cell "$12.99" [ref=e55]:
+                    - generic [ref=e56]: $12.99
+                - cell "91" [ref=e57]:
+                    - generic [ref=e58]: "91"
+                - cell "Edit Delete" [ref=e59]:
+                    - button "Edit" [ref=e60]
+                    - button "Delete" [ref=e61]
+            - button "Open product Red Nail Polish" [ref=e62] [cursor=pointer]:
+                - cell "Red Nail Polish" [ref=e63]
+                - cell "beauty" [ref=e64]
+                - cell "$8.99" [ref=e65]:
+                    - generic [ref=e66]: $8.99
+                - cell "79" [ref=e67]:
+                    - generic [ref=e68]: "79"
+                - cell "Edit Delete" [ref=e69]:
+                    - button "Edit" [ref=e70]
+                    - button "Delete" [ref=e71]
+    - contentinfo [ref=e72]:
+        - button "Prev" [disabled] [ref=e73]
+        - generic [ref=e74]: Page 1 / 39
+        - button "Next" [ref=e75] [cursor=pointer]
+```

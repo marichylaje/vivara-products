@@ -1,73 +1,170 @@
-# React + TypeScript + Vite
+# Vivara Products – Frontend Technical Test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+React + TypeScript application consuming the DummyJSON API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Features implemented:
 
-## React Compiler
+- Paginated products table
+- Full-text search
+- Category filtering
+- Product detail view
+- Full CRUD (create, edit, delete)
+- Local persistence for write operations
+- Unit tests (Vitest)
+- E2E tests (Playwright)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The focus of this implementation is clean architecture, scalability, and pragmatic frontend design.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+- React (latest)
+- TypeScript (strict)
+- Vite
+- React Router
+- TanStack Query (React Query)
+- Styled-components
+- Vitest + Testing Library
+- Playwright
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+## Architecture
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Feature-sliced layered structure:
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+src/
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+- app/ → Providers, router, global styles
+- pages/ → Route-level composition
+- features/ → User actions (forms, modals, filters)
+- entities/ → Domain logic (Product, API, persistence)
+- shared/ → UI kit and reusable utilities
+
+Dependency direction:
+
+app → pages → features → entities → shared
+
+This keeps responsibilities isolated and prevents tight coupling.
+
+---
+
+## Data & State Management
+
+All remote data is handled via React Query.
+
+- Centralized query keys
+- Cache invalidation after mutations
+- Query-based pagination
+- Error & loading states
+
+---
+
+## CRUD Strategy
+
+DummyJSON does not persist writes.
+
+To simulate real backend behavior:
+
+- All create/update/delete operations are stored in localStorage
+- Server data is patched locally using:
+  - created
+  - updated
+  - deleted
+
+This ensures:
+
+- UI behaves as if writes were persisted
+- Data survives page refresh
+- No fake server-side PUT/DELETE calls
+
+---
+
+## Search & Filters
+
+- Search and category filters are mutually exclusive (intentional simplification)
+- List state (search, category, page) persists across navigation
+
+---
+
+## Styling
+
+Styled-components with typed theme:
+
+- Centralized design tokens
+- Responsive layout
+- Mobile-friendly table behavior
+- Thumbnail rendering in detail view
+
+---
+
+## Testing
+
+### Unit Tests (Vitest)
+
+- ProductsPage (CRUD + filters)
+- ProductDetailsPage
+- local persistence logic
+- Debounce hook
+- Form validation
+
+### E2E Tests (Playwright)
+
+- App loads
+- Navigation to detail
+- Product creation flow
+
+---
+
+## Running the Project
+
+Install:
+
+npm install
+
+Dev server:
+
+npm run dev
+
+Build:
+
+npm run build
+
+---
+
+## Running Tests
+
+Unit tests:
+
+npm run test
+
+E2E tests:
+
+npx playwright install
+npm run test:e2e
+
+---
+
+## Key Decisions
+
+- React Query used as single source of remote truth
+- No global state manager (not required)
+- Local persistence to simulate real backend writes
+- Architecture designed for scalability and maintainability
+
+---
+
+## Possible Improvements
+
+- Optimistic UI updates
+- Improved accessibility
+- MSW for fully isolated API mocking
+- CI pipeline
+- Performance audit
+
+---
+
+This implementation prioritizes clarity, maintainability, and realistic frontend architecture over unnecessary complexity.
