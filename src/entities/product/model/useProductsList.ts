@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { productKeys } from "./queryKeys";
 import { productsApi } from "../api";
-import { applyWritesToList, getCreatedCount } from "../lib";
+import { applyWritesToList, getCreatedCount, getDeletedCount } from "../lib";
 
 type Params = { limit: number; skip: number; q?: string; category?: string | null };
 
@@ -29,7 +29,7 @@ export function useProductsList(params: Params) {
     select: (page) => ({
       ...page,
       products: applyWritesToList(page.products),
-      total: page.total + getCreatedCount(),
+      total: page.total + getCreatedCount() - getDeletedCount(),
     }),
   });
 }
